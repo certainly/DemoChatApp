@@ -15,7 +15,7 @@ class Decorator: ChatItemsDecoratorProtocol {
         var decoratedItems = [DecoratedChatItem]()
         
         for item in chatItems {
-            let decorateItem = DecoratedChatItem(chatItem: item, decorationAttributes: ChatItemDecorationAttributes(bottomMargin: 10, messageDecorationAttributes: BaseMessageDecorationAttributes()))
+            let decorateItem = DecoratedChatItem(chatItem: item, decorationAttributes: ChatItemDecorationAttributes(bottomMargin: 3, messageDecorationAttributes: BaseMessageDecorationAttributes()))
             decoratedItems.append(decorateItem)
         }
         return decoratedItems

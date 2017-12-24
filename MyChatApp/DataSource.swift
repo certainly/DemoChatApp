@@ -42,7 +42,7 @@ class DataSource: ChatDataSourceProtocol {
     }
     
     
-    func addTextMessage(message: ChatItemProtocol) {
+    func addMessage(message: ChatItemProtocol) {
         self.controller.insertItem(message: message)
         self.delegate?.chatDataSourceDidUpdate(self)
     }
