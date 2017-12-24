@@ -11,6 +11,9 @@
 		5C1BFE701FEF9BC90065F713 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BFE6F1FEF9BC90065F713 /* PhotoModel.swift */; };
 		5C1BFE721FEF9D8A0065F713 /* PhotoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BFE711FEF9D8A0065F713 /* PhotoBuilder.swift */; };
 		5C1BFE741FEFA0F30065F713 /* PhotoHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BFE731FEFA0F30065F713 /* PhotoHandler.swift */; };
+		5C1BFE761FEFD0520065F713 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C1BFE751FEFD0520065F713 /* GoogleService-Info.plist */; };
+		5C1BFE781FEFD2970065F713 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BFE771FEFD2970065F713 /* SignInViewController.swift */; };
+		5C1BFE7A1FEFD2BA0065F713 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BFE791FEFD2BA0065F713 /* SignUpViewController.swift */; };
 		5CEA68D51FEF79900071B6C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEA68D41FEF79900071B6C3 /* AppDelegate.swift */; };
 		5CEA68D71FEF79900071B6C3 /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEA68D61FEF79900071B6C3 /* ChatLogController.swift */; };
 		5CEA68DA1FEF79900071B6C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CEA68D81FEF79900071B6C3 /* Main.storyboard */; };
@@ -30,6 +33,9 @@
 		5C1BFE6F1FEF9BC90065F713 /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
 		5C1BFE711FEF9D8A0065F713 /* PhotoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBuilder.swift; sourceTree = "<group>"; };
 		5C1BFE731FEFA0F30065F713 /* PhotoHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoHandler.swift; sourceTree = "<group>"; };
+		5C1BFE751FEFD0520065F713 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5C1BFE771FEFD2970065F713 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		5C1BFE791FEFD2BA0065F713 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		5CEA68D11FEF79900071B6C3 /* MyChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CEA68D41FEF79900071B6C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5CEA68D61FEF79900071B6C3 /* ChatLogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
@@ -97,9 +103,12 @@
 				5C1BFE6E1FEF9BAC0065F713 /* Photo Message */,
 				5CEA68E61FEF7F4C0071B6C3 /* Text Message */,
 				5CEA68E01FEF79900071B6C3 /* Info.plist */,
+				5C1BFE751FEFD0520065F713 /* GoogleService-Info.plist */,
 				5CEA68E91FEF81420071B6C3 /* DataSource.swift */,
 				5CEA68EB1FEF81D90071B6C3 /* ChatItemsController.swift */,
 				5CEA68ED1FEF86C80071B6C3 /* Decorator.swift */,
+				5C1BFE771FEFD2970065F713 /* SignInViewController.swift */,
+				5C1BFE791FEFD2BA0065F713 /* SignUpViewController.swift */,
 			);
 			path = MyChatApp;
 			sourceTree = "<group>";
@@ -194,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CEA68DF1FEF79900071B6C3 /* LaunchScreen.storyboard in Resources */,
+				5C1BFE761FEFD0520065F713 /* GoogleService-Info.plist in Resources */,
 				5CEA68DC1FEF79900071B6C3 /* Assets.xcassets in Resources */,
 				5CEA68DA1FEF79900071B6C3 /* Main.storyboard in Resources */,
 			);
@@ -229,11 +239,15 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-MyChatApp/Pods-MyChatApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Chatto/Chatto.framework",
 				"${BUILT_PRODUCTS_DIR}/ChattoAdditions/ChattoAdditions.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Chatto.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChattoAdditions.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -270,8 +284,10 @@
 				5CEA68EA1FEF81420071B6C3 /* DataSource.swift in Sources */,
 				5CEA68D51FEF79900071B6C3 /* AppDelegate.swift in Sources */,
 				5C1BFE741FEFA0F30065F713 /* PhotoHandler.swift in Sources */,
+				5C1BFE781FEFD2970065F713 /* SignInViewController.swift in Sources */,
 				5CEA68EC1FEF81D90071B6C3 /* ChatItemsController.swift in Sources */,
 				5CEA68EE1FEF86C80071B6C3 /* Decorator.swift in Sources */,
+				5C1BFE7A1FEFD2BA0065F713 /* SignUpViewController.swift in Sources */,
 				5CEA68F21FEF8CB80071B6C3 /* TextHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
