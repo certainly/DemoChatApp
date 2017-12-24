@@ -19,12 +19,17 @@ class DataSource: ChatDataSourceProtocol {
         return controller.items
     }
     
+    init(totalMessages: [ChatItemProtocol]) {
+        controller.totalMessages = totalMessages
+        controller.loadIntoItemArray(messageNeeded: min(totalMessages.count,50))
+    }
+    
     var hasMoreNext: Bool {
         return false
     }
     
     var hasMorePrevious: Bool {
-        return false
+        return controller.totalMessages.count - controller.items.count > 0
     }
     
     var delegate: ChatDataSourceDelegateProtocol?
@@ -34,11 +39,19 @@ class DataSource: ChatDataSourceProtocol {
     }
     
     func loadPrevious() {
-        
+       controller.loadPrevious()
+        self.delegate?.chatDataSourceDidUpdate(self, updateType: .pagination  )
     }
     
     func adjustNumberOfMessages(preferredMaxCount: Int?, focusPosition: Double, completion: (Bool) -> Void) {
+        if focusPosition > 0.9 {
+            self.controller.adjustWindow()
+            completion(true)
+        } else {
+            completion(false)
+        }
         
+       
     }
     
     
