@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
 
 class SignUpViewController: UIViewController {
 
@@ -15,7 +17,8 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var fullname: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        NotificationCenter.default.addObserver(self, selector: #selector(showingKeyboard), name: NSNotification.Name(rawValue: "UIKeyboardWillShowNotification" ), object:  nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(hidingKeyboard), name: NSNotification.Name(rawValue: "UIKeyboardWillHideNotification" ), object:  nil)
         // Do any additional setup after loading the view.
     }
 
@@ -25,9 +28,37 @@ class SignUpViewController: UIViewController {
     }
     
     @IBAction func signUp(_ sender: Any) {
+        
+        guard let email = email.text, let password = password.text, let fullname = fullname.text else { return  }
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] (user, error) in
+            if let error = error {
+                self?.alert(message: error.localizedDescription)
+                return
+            }
+            
+            
+//            print("info: \(user!.uid) || \(Database.database().reference()) |333| \(Database.database().reference().child("Users").child(user!.uid))")
+//            Database.database().reference().child("Users").child(user!.uid).setValue(["username": "unnn222"]){ (error, ref) -> Void in
+//                print(error ?? "noerror")
+//            }
+            Database.database().reference().child("Users").child(user!.uid).updateChildValues(["email": email, "name": fullname], withCompletionBlock: { [weak self] (error, ref) in
+                if let error = error {
+                    self?.alert(message: error.localizedDescription)
+                    return
+                }
+                    print("success database \(ref)")
+            })
+
+            print("success signUp")
+        }
     }
+    
     @IBAction func back(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     /*

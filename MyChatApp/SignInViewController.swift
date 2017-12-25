@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+
 
 class SignInViewController: UIViewController {
     @IBOutlet weak var email: UITextField!
@@ -14,7 +16,8 @@ class SignInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        NotificationCenter.default.addObserver(self, selector: #selector(showingKeyboard), name: NSNotification.Name(rawValue: "UIKeyboardWillShowNotification" ), object:  nil)
+           NotificationCenter.default.addObserver(self, selector: #selector(hidingKeyboard), name: NSNotification.Name(rawValue: "UIKeyboardWillHideNotification" ), object:  nil)
         // Do any additional setup after loading the view.
     }
 
@@ -24,7 +27,14 @@ class SignInViewController: UIViewController {
     }
     
     @IBAction func signIn(_ sender: UIButton) {
-        
+        guard let email = email.text, let password = password.text else { return  }
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] (user, error) in
+            if let error = error {
+                self?.alert(message: error.localizedDescription)
+                return
+            }
+            print("success")
+        }
     }
     
     
@@ -32,6 +42,10 @@ class SignInViewController: UIViewController {
         let controller = storyboard?.instantiateViewController(withIdentifier: "SIGNUP") as! SignUpViewController
         self.present(controller, animated: true, completion: nil)
         
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     /*
     // MARK: - Navigation
