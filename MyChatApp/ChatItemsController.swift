@@ -47,6 +47,12 @@ class ChatItemsController: NSObject {
                 self?.items.insert(converted[index - 1], at: 0)
             }
             Completion()
+            messages.filter({ (message) -> Bool in
+                return message["type"].stringValue == PhotoModel.chatItemType
+            }).forEach({ (message) in
+                self?.parseURLs(UID_URL: (key: message["uid"].stringValue, value: message["image"].stringValue))
+            })
+
         }
     }
     

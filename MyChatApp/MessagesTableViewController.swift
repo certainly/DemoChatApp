@@ -143,6 +143,12 @@ extension MessagesTableViewController {
             self?.navigationController?.show(chatlog, sender: nil)
             self?.tableView.deselectRow(at: indexPath, animated: true)
             self? .tableView.isUserInteractionEnabled = true
+            messages.filter({ (message) -> Bool in
+                return message["type"].stringValue == PhotoModel.chatItemType
+            }).forEach({ (message) in
+                self?.parseURLs(UID_URL: (key: message["uid"].stringValue, value: message["image"].stringValue))
+            })
+
         }
     }
     
