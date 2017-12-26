@@ -34,13 +34,16 @@ class SignInViewController: UIViewController {
                 return
             }
             print("success")
+            let table = self?.storyboard?.instantiateViewController(withIdentifier: "table") as! MessagesTableViewController
+            self?.navigationController?.show(table, sender: nil)
         }
     }
     
     
     @IBAction func signUp(_ sender: UIButton) {
         let controller = storyboard?.instantiateViewController(withIdentifier: "SIGNUP") as! SignUpViewController
-        self.present(controller, animated: true, completion: nil)
+        self.navigationController?.show(controller, sender: nil)
+
         
     }
     

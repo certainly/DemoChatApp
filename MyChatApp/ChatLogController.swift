@@ -9,13 +9,15 @@
 import UIKit
 import Chatto
 import ChattoAdditions
+import FirebaseAuth
+import FirebaseDatabase
 
 class ChatLogController: BaseChatViewController {
     
     var presenter: BasicChatInputBarPresenter!
     var dataSource: DataSource!
     var decorator = Decorator()
-    var totalMessages = [ChatItemProtocol]()
+    var userUID = String()
     
     
     
@@ -43,12 +45,14 @@ class ChatLogController: BaseChatViewController {
         item.textInputHandler = {[weak self] text in
             let date = Date()
             let double = Double(date.timeIntervalSinceReferenceDate)
-            let senderID = "me"
+            let senderID = Auth.auth().currentUser!.uid
+            let messageUID = ("\(double)"+senderID).replacingOccurrences(of: ".", with: "")
             
-            
-            let message = MessageModel(uid: "(\(double, senderID))", senderId: senderID, type: TextModel.chatItemType, isIncoming: false, date: Date(), status: .success)
+             
+            let message = MessageModel(uid: messageUID, senderId: senderID, type: TextModel.chatItemType, isIncoming: false, date: Date(), status: .sending)
             let textMessage = TextModel(messageModel: message, text: text)
             self?.dataSource.addMessage(message: textMessage)
+            self?.sendOnlineTextMessage(text: text, uid: messageUID, double: double, senderId: senderID)
         }
         return item
     }
@@ -71,22 +75,40 @@ class ChatLogController: BaseChatViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for i in 1...295 {
-            let message = MessageModel(uid: "\(i)", senderId: "", type: TextModel.chatItemType, isIncoming: false, date: Date(), status: .success)
-            self.totalMessages.append(TextModel(messageModel: message, text: "\(i)"))
-        }
-        self.dataSource = DataSource(totalMessages: totalMessages)
+
         self.chatDataSource = self.dataSource
         self.chatItemsDecorator = self.decorator
         self.constants.preferredMaxMessageCount = 300
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func sendOnlineTextMessage(text: String, uid: String, double:Double, senderId: String )  {
+        let message = ["text": text, "uid": uid, "date": double, "senderId": senderId, "status": "success"] as [String: Any]
+        let childUpdates = ["/User-messages/\(senderId)/\(self.userUID)/\(uid)" : message,
+                            "/User-messages/\(self.userUID)/\(senderId)/\(uid)" : message
+                            ]
+        Database.database().reference().updateChildValues(childUpdates) { (error, _) in
+            if error != nil {
+                self.dataSource.updateTextMessage(uid: uid, status: .failed)
+                return
+            }
+            self.dataSource.updateTextMessage(uid: uid, status: .success)
+        }
+        
+//        let childUpdates = ["User-messages/12354/78845/121" : "message",
+//                            "User-messages/78845/12354/121" : "message"
+//        ]
+//        Database.database().reference().updateChildValues(childUpdates) { (error, _) in
+//            if error != nil {
+//                print("suc")
+//                return
+//            }
+//            print("err")
+//        }
     }
 
-
+    deinit {
+        print("deinit")
+    }
 }
 

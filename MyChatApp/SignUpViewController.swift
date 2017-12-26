@@ -49,13 +49,19 @@ class SignUpViewController: UIViewController {
                     print("success database \(ref)")
             })
 
-            print("success signUp")
+       
+            let changeRequest = user!.createProfileChangeRequest()
+            changeRequest.displayName = fullname
+            changeRequest.commitChanges(completion: nil)
+            
+            
+            let table = self?.storyboard?.instantiateViewController(withIdentifier: "table") as! MessagesTableViewController
+            self?.navigationController?.show(table, sender: nil)
+            
         }
     }
     
-    @IBAction func back(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
+
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)

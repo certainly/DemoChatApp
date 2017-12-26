@@ -32,7 +32,7 @@ class DataSource: ChatDataSourceProtocol {
         return controller.totalMessages.count - controller.items.count > 0
     }
     
-    var delegate: ChatDataSourceDelegateProtocol?
+    weak var delegate: ChatDataSourceDelegateProtocol?
     
     func loadNext() {
         
@@ -58,6 +58,17 @@ class DataSource: ChatDataSourceProtocol {
     func addMessage(message: ChatItemProtocol) {
         self.controller.insertItem(message: message)
         self.delegate?.chatDataSourceDidUpdate(self)
+    }
+    
+    func updateTextMessage(uid: String, status: MessageStatus) {
+        if let index = self.controller.items.index(where: { (message) -> Bool in
+            return message.uid == uid
+        }) {
+            let message = self.controller.items[index] as! TextModel
+            message.status = status
+            self.delegate?.chatDataSourceDidUpdate(self)
+            
+        }
     }
     
 }

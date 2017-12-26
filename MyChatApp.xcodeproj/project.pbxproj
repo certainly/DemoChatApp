@@ -15,6 +15,8 @@
 		5C1BFE781FEFD2970065F713 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BFE771FEFD2970065F713 /* SignInViewController.swift */; };
 		5C1BFE7A1FEFD2BA0065F713 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BFE791FEFD2BA0065F713 /* SignUpViewController.swift */; };
 		5C1BFE7C1FEFD75F0065F713 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BFE7B1FEFD75F0065F713 /* Helpers.swift */; };
+		5C1BFEA01FF08FB40065F713 /* MessagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BFE9F1FF08FB40065F713 /* MessagesTableViewCell.swift */; };
+		5C1BFEA21FF091490065F713 /* MessagesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BFEA11FF091490065F713 /* MessagesTableViewController.swift */; };
 		5CEA68D51FEF79900071B6C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEA68D41FEF79900071B6C3 /* AppDelegate.swift */; };
 		5CEA68D71FEF79900071B6C3 /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEA68D61FEF79900071B6C3 /* ChatLogController.swift */; };
 		5CEA68DA1FEF79900071B6C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CEA68D81FEF79900071B6C3 /* Main.storyboard */; };
@@ -38,6 +40,8 @@
 		5C1BFE771FEFD2970065F713 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		5C1BFE791FEFD2BA0065F713 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		5C1BFE7B1FEFD75F0065F713 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		5C1BFE9F1FF08FB40065F713 /* MessagesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTableViewCell.swift; sourceTree = "<group>"; };
+		5C1BFEA11FF091490065F713 /* MessagesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTableViewController.swift; sourceTree = "<group>"; };
 		5CEA68D11FEF79900071B6C3 /* MyChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CEA68D41FEF79900071B6C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5CEA68D61FEF79900071B6C3 /* ChatLogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
@@ -112,6 +116,8 @@
 				5C1BFE771FEFD2970065F713 /* SignInViewController.swift */,
 				5C1BFE791FEFD2BA0065F713 /* SignUpViewController.swift */,
 				5C1BFE7B1FEFD75F0065F713 /* Helpers.swift */,
+				5C1BFE9F1FF08FB40065F713 /* MessagesTableViewCell.swift */,
+				5C1BFEA11FF091490065F713 /* MessagesTableViewController.swift */,
 			);
 			path = MyChatApp;
 			sourceTree = "<group>";
@@ -244,6 +250,7 @@
 				"${BUILT_PRODUCTS_DIR}/ChattoAdditions/ChattoAdditions.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -253,6 +260,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChattoAdditions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -284,6 +292,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C1BFE721FEF9D8A0065F713 /* PhotoBuilder.swift in Sources */,
+				5C1BFEA21FF091490065F713 /* MessagesTableViewController.swift in Sources */,
+				5C1BFEA01FF08FB40065F713 /* MessagesTableViewCell.swift in Sources */,
 				5C1BFE7C1FEFD75F0065F713 /* Helpers.swift in Sources */,
 				5C1BFE701FEF9BC90065F713 /* PhotoModel.swift in Sources */,
 				5CEA68F01FEF8A040071B6C3 /* TextBuilder.swift in Sources */,
@@ -437,6 +447,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2BE89PGHN9;
 				INFOPLIST_FILE = MyChatApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.certainly.MyChatApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -453,6 +464,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2BE89PGHN9;
 				INFOPLIST_FILE = MyChatApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.certainly.MyChatApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

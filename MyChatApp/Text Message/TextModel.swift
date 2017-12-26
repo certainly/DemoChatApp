@@ -17,5 +17,14 @@ class TextModel: TextMessageModel<MessageModel> {
     override init(messageModel: MessageModel, text: String) {
         super.init(messageModel: messageModel, text: text)
     }
+    
+    var status: MessageStatus {
+        get {
+            return self._messageModel.status
+        }
+        set {
+            self._messageModel.status = newValue
+        }
+    }
 }
 
