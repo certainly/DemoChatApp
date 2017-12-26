@@ -11,6 +11,7 @@ import UIKit
 import Chatto
 import ChattoAdditions
 import SwiftyJSON
+import Kingfisher
 
 extension UIViewController {
     

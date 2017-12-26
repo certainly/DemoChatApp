@@ -14,6 +14,7 @@ import FirebaseDatabase
 import FirebaseDatabaseUI
 import SwiftyJSON
 import FirebaseStorage
+import Kingfisher
 
 class ChatLogController: BaseChatViewController, FUICollectionDelegate {
     
