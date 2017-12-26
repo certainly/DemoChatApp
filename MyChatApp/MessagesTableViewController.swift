@@ -16,8 +16,11 @@ import Chatto
 class MessagesTableViewController: UIViewController,FUICollectionDelegate,UITableViewDelegate,UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-    let Contacts = FUIArray(query: Database.database().reference().child("Users").child(Me.uid).child("Contacts"))
-    
+    let Contacts = FUISortedArray(query: Database.database().reference().child("Users").child(Me.uid).child("Contacts"), delegate: nil) { (lhs, rhs) -> ComparisonResult in
+        let lhs = Date(timeIntervalSinceReferenceDate: JSON(lhs.value as Any)["lastMessage"]["date"].doubleValue)
+        let rhs = Date(timeIntervalSinceReferenceDate:JSON(rhs.value as Any)["lastMessage"]["date"].doubleValue)
+        return rhs.compare(lhs)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,9 +116,10 @@ extension MessagesTableViewController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MessagesTableViewCell
         
-        let info = JSON((Contacts[(UInt(indexPath.row))] as? DataSnapshot)?.value as Any).dictionaryObject
-        cell.Name.text = info?["name"] as? String
-        cell.lastMessageDate.text = nil
+        let info = JSON((Contacts[(UInt(indexPath.row))] as? DataSnapshot)?.value as Any).dictionaryValue
+        cell.Name.text = info["name"]?.stringValue
+        cell.lastMessage.text = info["lastMessage"]?["text"].string
+        cell.lastMessageDate.text = dateFormatter(timestamp: info["lastMessage"]?["date"].double)
         return cell
         
     }
@@ -135,9 +139,31 @@ extension MessagesTableViewController {
             let chatlog = ChatLogController()
             chatlog.userUID = uid
             chatlog.dataSource = DataSource(initialMessages: converted, uid: uid)
+            chatlog.MessagesArray = FUIArray(query: Database.database().reference().child("User-messages").child(Me.uid).child(uid).queryStarting(atValue: nil, childKey: converted.last?.uid), delegate: nil)
             self?.navigationController?.show(chatlog, sender: nil)
             self?.tableView.deselectRow(at: indexPath, animated: true)
             self? .tableView.isUserInteractionEnabled = true
         }
+    }
+    
+    func dateFormatter(timestamp: Double?) -> String? {
+        
+        if let timestamp = timestamp {
+            let date = Date(timeIntervalSinceReferenceDate: timestamp)
+            let dateFormatter = DateFormatter()
+            let timeSinceDateInSeconds = Date().timeIntervalSince(date)
+            let secondInDays: TimeInterval = 24*60*60
+            if timeSinceDateInSeconds > 7 * secondInDays {
+                dateFormatter.dateFormat = "MM/dd/yy"
+            } else if timeSinceDateInSeconds > secondInDays {
+                dateFormatter.dateFormat = "EEE"
+            } else {
+                dateFormatter.dateFormat = "h:mm a"
+            }
+            return dateFormatter.string(from: date)
+        } else {
+            return nil
+        }
+        
     }
 }

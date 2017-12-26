@@ -11,14 +11,16 @@ import Chatto
 import ChattoAdditions
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseDatabaseUI
+import SwiftyJSON
 
-class ChatLogController: BaseChatViewController {
+class ChatLogController: BaseChatViewController, FUICollectionDelegate {
     
     var presenter: BasicChatInputBarPresenter!
     var dataSource: DataSource!
     var decorator = Decorator()
     var userUID = String()
-    
+    var MessagesArray: FUIArray!
     
     
     override func createPresenterBuilders() -> [ChatItemType : [ChatItemPresenterBuilderProtocol]] {
@@ -79,13 +81,17 @@ class ChatLogController: BaseChatViewController {
         self.chatDataSource = self.dataSource
         self.chatItemsDecorator = self.decorator
         self.constants.preferredMaxMessageCount = 300
+        self.MessagesArray.observeQuery()
+        self.MessagesArray.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
     }
 
     func sendOnlineTextMessage(text: String, uid: String, double:Double, senderId: String )  {
         let message = ["text": text, "uid": uid, "date": double, "senderId": senderId, "status": "success", "type" : TextModel.chatItemType] as [String: Any]
         let childUpdates = ["/User-messages/\(senderId)/\(self.userUID)/\(uid)" : message,
-                            "/User-messages/\(self.userUID)/\(senderId)/\(uid)" : message
+                            "/User-messages/\(self.userUID)/\(senderId)/\(uid)" : message,
+                            "Users/\(Me.uid)/Contacts/\(self.userUID)/lastMessage":  message,
+                            "Users/\(self.userUID)/Contacts/\(Me.uid)/lastMessage":  message
                             ]
         Database.database().reference().updateChildValues(childUpdates) { (error, _) in
             if error != nil {
@@ -109,6 +115,28 @@ class ChatLogController: BaseChatViewController {
 
     deinit {
         print("deinit")
+    }
+}
+
+extension ChatLogController {
+    func array(_ array: FUICollection, didAdd object: Any, at index: UInt) {
+        let message = JSON((object as! DataSnapshot).value as Any)
+        let senderId = message["senderId"].stringValue
+        let type = message["type"].stringValue
+        let contains = self.dataSource.controller.items.contains { (collectionViewMessage) -> Bool in
+            return collectionViewMessage.uid == message["uid"].stringValue
+        }
+        if contains == false {
+            let model = MessageModel(uid: message["uid"].stringValue, senderId: senderId, type: message["type"].stringValue,
+                                     isIncoming: senderId == Me.uid ? false : true ,
+                                     date: Date(timeIntervalSinceReferenceDate: message["date"].doubleValue),
+                                     status: message["status"] == "success" ? MessageStatus.success : MessageStatus.sending )
+            let textMessage = TextModel(messageModel: model, text: message["text"].stringValue)
+            self.dataSource.addMessage(message: textMessage)
+        }
+        
+        
+        
     }
 }
 
