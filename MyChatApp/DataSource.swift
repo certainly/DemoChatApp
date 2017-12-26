@@ -10,18 +10,23 @@ import Foundation
 import Chatto
 import ChattoAdditions
 
+
 class DataSource: ChatDataSourceProtocol {
 
     
     var controller = ChatItemsController()
+    var currentlyLoading = false
     
     var chatItems: [ChatItemProtocol] {
         return controller.items
     }
     
-    init(totalMessages: [ChatItemProtocol]) {
-        controller.totalMessages = totalMessages
-        controller.loadIntoItemArray(messageNeeded: min(totalMessages.count,50))
+
+    
+    init(initialMessages: [ChatItemProtocol], uid: String) {
+        controller.initialMessages = initialMessages
+        controller.userUID = uid
+        controller.loadIntoItemArray(messageNeeded: min(initialMessages.count,50), moreToLoad: initialMessages.count > 50)
     }
     
     var hasMoreNext: Bool {
@@ -29,7 +34,7 @@ class DataSource: ChatDataSourceProtocol {
     }
     
     var hasMorePrevious: Bool {
-        return controller.totalMessages.count - controller.items.count > 0
+        return controller.loadMore
     }
     
     weak var delegate: ChatDataSourceDelegateProtocol?
@@ -37,10 +42,16 @@ class DataSource: ChatDataSourceProtocol {
     func loadNext() {
         
     }
-    
+     
     func loadPrevious() {
-       controller.loadPrevious()
-        self.delegate?.chatDataSourceDidUpdate(self, updateType: .pagination  )
+        if currentlyLoading == false {
+            currentlyLoading = true
+            controller.loadPrevious() {
+                
+                self.delegate?.chatDataSourceDidUpdate(self, updateType: .pagination  )
+                self.currentlyLoading = false
+            }
+        }
     }
     
     func adjustNumberOfMessages(preferredMaxCount: Int?, focusPosition: Double, completion: (Bool) -> Void) {
